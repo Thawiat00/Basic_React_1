@@ -16,210 +16,210 @@ function StyledCard({ title, children }) {
   );
 }
 
-// 📦 บทที่ 3.1: Conditional Rendering แบบ Ternary
-function StatusBadge() {
-  const [isOnline, setIsOnline] = useState(true);
+// 📦 บทที่ 4.1: useState พื้นฐาน
+function Counter() {
+  // useState(0) = ค่าเริ่มต้นคือ 0
+  // count = ค่าปัจจุบัน
+  // setCount = function สำหรับเปลี่ยนค่า
+  const [count, setCount] = useState(0);
 
   return (
-    <StyledCard title="🔄 Conditional Rendering (? :)">
+    <StyledCard title="🔢 Counter (useState พื้นฐาน)">
       <div style={{ textAlign: 'center' }}>
-        {/* แสดงตามเงื่อนไข: ถ้าจริงแสดงอันแรก ถ้าเท็จแสดงอันที่สอง */}
-        <div style={{
-          display: 'inline-block',
-          padding: '10px 20px',
-          borderRadius: '20px',
-          backgroundColor: isOnline ? '#4CAF50' : '#f44336',
-          color: 'white',
-          marginBottom: '10px'
-        }}>
-          {isOnline ? '🟢 ออนไลน์' : '🔴 ออฟไลน์'}
-        </div>
-        <br />
+        <h1 style={{ fontSize: '48px', margin: '20px 0', color: '#2196F3' }}>
+          {count}
+        </h1>
         
-        {/* Event: onClick */}
-        <button 
-          onClick={() => setIsOnline(!isOnline)}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: '#2196F3',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer'
-          }}
-        >
-          เปลี่ยนสถานะ
-        </button>
-      </div>
-    </StyledCard>
-  );
-}
-
-// 📦 บทที่ 3.2: Conditional Rendering แบบ &&
-function Notification() {
-  const [hasMessage, setHasMessage] = useState(true);
-  const [messageCount, setMessageCount] = useState(5);
-
-  return (
-    <StyledCard title="📬 Notification System (&&)">
-      <div style={{ textAlign: 'center' }}>
-        {/* แสดงเฉพาะเมื่อมีข้อความ */}
-        {hasMessage && (
-          <div style={{
-            padding: '15px',
-            backgroundColor: '#fff3cd',
-            borderRadius: '5px',
-            marginBottom: '10px'
-          }}>
-            📩 คุณมีข้อความใหม่ {messageCount} ข้อความ
-          </div>
-        )}
-
-        {/* แสดงเฉพาะเมื่อไม่มีข้อความ */}
-        {!hasMessage && (
-          <p style={{ color: '#999' }}>ไม่มีข้อความใหม่</p>
-        )}
-
-        <button 
-          onClick={() => setHasMessage(!hasMessage)}
-          style={{
-            padding: '10px 20px',
-            backgroundColor: '#FF9800',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            marginRight: '5px'
-          }}
-        >
-          {hasMessage ? 'ลบข้อความ' : 'เพิ่มข้อความ'}
-        </button>
-
-        {hasMessage && (
+        <div>
           <button 
-            onClick={() => setMessageCount(messageCount + 1)}
+            onClick={() => setCount(count - 1)}
             style={{
               padding: '10px 20px',
-              backgroundColor: '#4CAF50',
+              margin: '5px',
+              backgroundColor: '#f44336',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '18px'
+            }}
+          >
+            -
+          </button>
+          
+          <button 
+            onClick={() => setCount(0)}
+            style={{
+              padding: '10px 20px',
+              margin: '5px',
+              backgroundColor: '#9E9E9E',
               color: 'white',
               border: 'none',
               borderRadius: '5px',
               cursor: 'pointer'
             }}
           >
-            เพิ่มจำนวน +1
+            Reset
           </button>
-        )}
-      </div>
-    </StyledCard>
-  );
-}
-
-// 📦 บทที่ 3.3: Multiple Events
-function LoginForm() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = () => {
-    if (username && password) {
-      setIsLoggedIn(true);
-    } else {
-      alert('กรุณากรอกข้อมูลให้ครบ!');
-    }
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUsername('');
-    setPassword('');
-  };
-
-  return (
-    <StyledCard title="🔐 Login Form">
-      {!isLoggedIn ? (
-        // แสดงฟอร์ม Login
-        <div>
-          <div style={{ marginBottom: '10px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>
-              Username:
-            </label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="กรอก username"
-              style={{
-                width: '100%',
-                padding: '8px',
-                borderRadius: '5px',
-                border: '1px solid #ddd'
-              }}
-            />
-          </div>
-
-          <div style={{ marginBottom: '10px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>
-              Password:
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="กรอก password"
-              style={{
-                width: '100%',
-                padding: '8px',
-                borderRadius: '5px',
-                border: '1px solid #ddd'
-              }}
-            />
-          </div>
-
+          
           <button 
-            onClick={handleLogin}
+            onClick={() => setCount(count + 1)}
             style={{
-              width: '100%',
-              padding: '10px',
+              padding: '10px 20px',
+              margin: '5px',
               backgroundColor: '#4CAF50',
               color: 'white',
               border: 'none',
               borderRadius: '5px',
               cursor: 'pointer',
-              fontSize: '16px'
+              fontSize: '18px'
             }}
           >
-            Login
+            +
           </button>
         </div>
-      ) : (
-        // แสดงหน้า Dashboard
-        <div style={{ textAlign: 'center' }}>
-          <div style={{
-            padding: '20px',
-            backgroundColor: '#e8f5e9',
-            borderRadius: '10px',
-            marginBottom: '15px'
-          }}>
-            <h3>👋 ยินดีต้อนรับ, {username}!</h3>
-            <p>คุณเข้าสู่ระบบสำเร็จแล้ว</p>
-          </div>
 
-          <button 
-            onClick={handleLogout}
+        <p style={{ marginTop: '15px', color: '#666', fontSize: '14px' }}>
+          💡 แต่ละปุ่มเรียก setCount() เพื่อเปลี่ยนค่า
+        </p>
+      </div>
+    </StyledCard>
+  );
+}
+
+// 📦 บทที่ 4.2: useState กับ Object
+function TodoList() {
+  const [todos, setTodos] = useState([
+    { id: 1, text: 'เรียน React', completed: true },
+    { id: 2, text: 'สร้าง Component', completed: true },
+    { id: 3, text: 'ทำโปรเจคจริง', completed: false }
+  ]);
+
+  // Function สำหรับสลับสถานะ completed
+  const toggleTodo = (id) => {
+    setTodos(todos.map(todo =>
+      todo.id === id 
+        ? { ...todo, completed: !todo.completed }  // spread operator
+        : todo
+    ));
+  };
+
+  return (
+    <StyledCard title="✅ Todo List (useState กับ Array)">
+      <ul style={{ listStyle: 'none', padding: 0 }}>
+        {todos.map(todo => (
+          <li 
+            key={todo.id}
+            onClick={() => toggleTodo(todo.id)}
             style={{
-              padding: '10px 30px',
-              backgroundColor: '#f44336',
+              padding: '10px',
+              marginBottom: '8px',
+              backgroundColor: 'white',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              textDecoration: todo.completed ? 'line-through' : 'none',
+              opacity: todo.completed ? 0.6 : 1,
+              border: '1px solid #ddd'
+            }}
+          >
+            {todo.completed ? '✅' : '⬜'} {todo.text}
+          </li>
+        ))}
+      </ul>
+      <p style={{ fontSize: '12px', color: '#666', textAlign: 'center' }}>
+        💡 คลิกที่รายการเพื่อเปลี่ยนสถานะ
+      </p>
+    </StyledCard>
+  );
+}
+
+// 📦 บทที่ 4.3: State แยกกัน (แต่ละ Component มี State ของตัวเอง)
+function IndependentCounters() {
+  // Component ปุ่มที่มี state ของตัวเอง
+  function IndependentButton({ label, color }) {
+    const [count, setCount] = useState(0);
+
+    return (
+      <button
+        onClick={() => setCount(count + 1)}
+        style={{
+          padding: '10px 20px',
+          margin: '5px',
+          backgroundColor: color,
+          color: 'white',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer'
+        }}
+      >
+        {label}: {count}
+      </button>
+    );
+  }
+
+  return (
+    <StyledCard title="🔀 State แยกกัน (Independent State)">
+      <div style={{ textAlign: 'center' }}>
+        <p style={{ marginBottom: '10px' }}>
+          แต่ละปุ่มมี state ของตัวเอง (นับแยกกัน)
+        </p>
+        <IndependentButton label="ปุ่ม A" color="#FF5722" />
+        <IndependentButton label="ปุ่ม B" color="#3F51B5" />
+        <IndependentButton label="ปุ่ม C" color="#9C27B0" />
+      </div>
+    </StyledCard>
+  );
+}
+
+// 📦 บทที่ 4.4: Sharing State (ยก State ขึ้นไปที่ Component แม่)
+function SharedCounter() {
+  // State อยู่ที่ Component แม่
+  const [sharedCount, setSharedCount] = useState(0);
+
+  // Component ลูก - รับ props จากแม่
+  const CounterButton = ({ label, color }) => (
+    <button
+      onClick={() => setSharedCount(sharedCount + 1)}
+      style={{
+        padding: '10px 20px',
+        margin: '5px',
+        backgroundColor: color,
+        color: 'white',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer'
+      }}
+    >
+      {label}: {sharedCount}
+    </button>
+  );
+
+  return (
+    <StyledCard title="🔗 Shared State (แชร์ State)">
+      <div style={{ textAlign: 'center' }}>
+        <p style={{ marginBottom: '10px' }}>
+          ทั้ง 3 ปุ่มใช้ state เดียวกัน (นับพร้อมกัน)
+        </p>
+        <CounterButton label="ปุ่ม A" color="#FF5722" />
+        <CounterButton label="ปุ่ม B" color="#3F51B5" />
+        <CounterButton label="ปุ่ม C" color="#9C27B0" />
+        
+        <div style={{ marginTop: '15px' }}>
+          <button
+            onClick={() => setSharedCount(0)}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#9E9E9E',
               color: 'white',
               border: 'none',
               borderRadius: '5px',
               cursor: 'pointer'
             }}
           >
-            Logout
+            Reset ทั้งหมด
           </button>
         </div>
-      )}
+      </div>
     </StyledCard>
   );
 }
@@ -228,25 +228,53 @@ function LoginForm() {
 export default function App() {
   return (
     <div style={{ 
-      maxWidth: '800px', 
+      maxWidth: '900px', 
       margin: '0 auto', 
       padding: '20px',
       fontFamily: 'Arial, sans-serif'
     }}>
-      <h1 style={{ textAlign: 'center' }}>📚 บทที่ 3: Conditional Rendering และ Events</h1>
+      <h1 style={{ textAlign: 'center' }}>📚 บทที่ 4: useState และ Sharing State</h1>
       
-      <StatusBadge />
-      <Notification />
-      <LoginForm />
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+        gap: '15px'
+      }}>
+        <Counter />
+        <TodoList />
+        <IndependentCounters />
+        <SharedCounter />
+      </div>
 
       <StyledCard title="🎓 สรุป">
         <ul>
-          <li><strong>Ternary (? :):</strong> <code>{'{'}condition ? &lt;A /&gt; : &lt;B /&gt;{'}'}</code></li>
-          <li><strong>Logical AND (&&):</strong> <code>{'{'}condition && &lt;A /&gt;{'}'}</code></li>
-          <li><strong>Events:</strong> onClick, onChange, onSubmit เป็นต้น</li>
-          <li><strong>Arrow Function:</strong> <code>onClick={'{'}() =&gt; doSomething(){'}'}</code></li>
-          <li><strong>Event Object:</strong> <code>onChange={'{'}(e) =&gt; setValue(e.target.value){'}'}</code></li>
+          <li><strong>useState:</strong> Hook สำหรับเก็บข้อมูลที่เปลี่ยนแปลงได้</li>
+          <li><strong>Syntax:</strong> <code>const [value, setValue] = useState(initialValue)</code></li>
+          <li><strong>Independent State:</strong> แต่ละ Component มี state ของตัวเอง</li>
+          <li><strong>Shared State:</strong> ยก state ขึ้นไปที่ parent แล้วส่งผ่าน props</li>
+          <li><strong>Spread Operator:</strong> <code>{'{'} ...object {'}'}</code> สำหรับ copy object/array</li>
+          <li><strong>Array Methods:</strong> .map(), .filter() ใช้ร่วมกับ setState</li>
         </ul>
+
+        <div style={{
+          marginTop: '20px',
+          padding: '15px',
+          backgroundColor: '#fff3e0',
+          borderRadius: '8px'
+        }}>
+          <h4>💡 เมื่อไหร่ควรใช้ Shared State?</h4>
+          <p><strong>ใช้ Shared State เมื่อ:</strong></p>
+          <ul>
+            <li>หลาย Component ต้องการข้อมูลเดียวกัน</li>
+            <li>ต้องการให้ข้อมูลอัพเดทพร้อมกัน</li>
+            <li>ต้องการควบคุม state จากจุดเดียว</li>
+          </ul>
+          <p><strong>ใช้ Independent State เมื่อ:</strong></p>
+          <ul>
+            <li>แต่ละ Component ทำงานแยกกัน</li>
+            <li>ไม่ต้องการแชร์ข้อมูล</li>
+          </ul>
+        </div>
       </StyledCard>
     </div>
   );
