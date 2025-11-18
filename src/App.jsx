@@ -1,4 +1,6 @@
-// 📦 Component สำหรับ Card (นำมาใช้ซ้ำจากบทที่ 1)
+import { useState } from 'react';
+
+// 📦 Component สำหรับ Card
 function StyledCard({ title, children }) {
   return (
     <div style={{
@@ -14,109 +16,210 @@ function StyledCard({ title, children }) {
   );
 }
 
-// 📦 บทที่ 2.1: แสดงข้อมูลจาก Object
-function UserProfile() {
-  // ข้อมูลผู้ใช้ในรูปแบบ Object
-  const user = {
-    name: 'สมชาย ใจดี',
-    age: 25,
-    hobbies: ['อ่านหนังสือ', 'เขียนโค้ด', 'ฟังเพลง']
+// 📦 บทที่ 3.1: Conditional Rendering แบบ Ternary
+function StatusBadge() {
+  const [isOnline, setIsOnline] = useState(true);
+
+  return (
+    <StyledCard title="🔄 Conditional Rendering (? :)">
+      <div style={{ textAlign: 'center' }}>
+        {/* แสดงตามเงื่อนไข: ถ้าจริงแสดงอันแรก ถ้าเท็จแสดงอันที่สอง */}
+        <div style={{
+          display: 'inline-block',
+          padding: '10px 20px',
+          borderRadius: '20px',
+          backgroundColor: isOnline ? '#4CAF50' : '#f44336',
+          color: 'white',
+          marginBottom: '10px'
+        }}>
+          {isOnline ? '🟢 ออนไลน์' : '🔴 ออฟไลน์'}
+        </div>
+        <br />
+        
+        {/* Event: onClick */}
+        <button 
+          onClick={() => setIsOnline(!isOnline)}
+          style={{
+            padding: '8px 16px',
+            backgroundColor: '#2196F3',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}
+        >
+          เปลี่ยนสถานะ
+        </button>
+      </div>
+    </StyledCard>
+  );
+}
+
+// 📦 บทที่ 3.2: Conditional Rendering แบบ &&
+function Notification() {
+  const [hasMessage, setHasMessage] = useState(true);
+  const [messageCount, setMessageCount] = useState(5);
+
+  return (
+    <StyledCard title="📬 Notification System (&&)">
+      <div style={{ textAlign: 'center' }}>
+        {/* แสดงเฉพาะเมื่อมีข้อความ */}
+        {hasMessage && (
+          <div style={{
+            padding: '15px',
+            backgroundColor: '#fff3cd',
+            borderRadius: '5px',
+            marginBottom: '10px'
+          }}>
+            📩 คุณมีข้อความใหม่ {messageCount} ข้อความ
+          </div>
+        )}
+
+        {/* แสดงเฉพาะเมื่อไม่มีข้อความ */}
+        {!hasMessage && (
+          <p style={{ color: '#999' }}>ไม่มีข้อความใหม่</p>
+        )}
+
+        <button 
+          onClick={() => setHasMessage(!hasMessage)}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#FF9800',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            marginRight: '5px'
+          }}
+        >
+          {hasMessage ? 'ลบข้อความ' : 'เพิ่มข้อความ'}
+        </button>
+
+        {hasMessage && (
+          <button 
+            onClick={() => setMessageCount(messageCount + 1)}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#4CAF50',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer'
+            }}
+          >
+            เพิ่มจำนวน +1
+          </button>
+        )}
+      </div>
+    </StyledCard>
+  );
+}
+
+// 📦 บทที่ 3.3: Multiple Events
+function LoginForm() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    if (username && password) {
+      setIsLoggedIn(true);
+    } else {
+      alert('กรุณากรอกข้อมูลให้ครบ!');
+    }
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUsername('');
+    setPassword('');
   };
 
   return (
-    <StyledCard title="👤 โปรไฟล์ผู้ใช้">
-      {/* แสดงข้อมูลแบบธรรมดา */}
-      <p><strong>ชื่อ:</strong> {user.name}</p>
-      <p><strong>อายุ:</strong> {user.age} ปี</p>
-      
-      {/* แสดงข้อมูลแบบ List */}
-      <p><strong>งานอดิเรก:</strong></p>
-      <ul>
-        {user.hobbies.map((hobby, index) => (
-          <li key={index}>{hobby}</li>
-        ))}
-      </ul>
-    </StyledCard>
-  );
-}
+    <StyledCard title="🔐 Login Form">
+      {!isLoggedIn ? (
+        // แสดงฟอร์ม Login
+        <div>
+          <div style={{ marginBottom: '10px' }}>
+            <label style={{ display: 'block', marginBottom: '5px' }}>
+              Username:
+            </label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="กรอก username"
+              style={{
+                width: '100%',
+                padding: '8px',
+                borderRadius: '5px',
+                border: '1px solid #ddd'
+              }}
+            />
+          </div>
 
-// 📦 บทที่ 2.2: แสดง Array ของ Objects
-function ProductList() {
-  const products = [
-    { id: 1, name: '📱 iPhone 15', price: 35000, inStock: true },
-    { id: 2, name: '💻 MacBook Pro', price: 65000, inStock: true },
-    { id: 3, name: '⌚ Apple Watch', price: 15000, inStock: false },
-    { id: 4, name: '🎧 AirPods Pro', price: 8900, inStock: true }
-  ];
+          <div style={{ marginBottom: '10px' }}>
+            <label style={{ display: 'block', marginBottom: '5px' }}>
+              Password:
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="กรอก password"
+              style={{
+                width: '100%',
+                padding: '8px',
+                borderRadius: '5px',
+                border: '1px solid #ddd'
+              }}
+            />
+          </div>
 
-  return (
-    <StyledCard title="🛍️ รายการสินค้า">
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr style={{ backgroundColor: '#e8f5e9' }}>
-            <th style={{ padding: '10px', textAlign: 'left' }}>สินค้า</th>
-            <th style={{ padding: '10px', textAlign: 'right' }}>ราคา</th>
-            <th style={{ padding: '10px', textAlign: 'center' }}>สถานะ</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map(product => (
-            <tr key={product.id} style={{ borderBottom: '1px solid #ddd' }}>
-              <td style={{ padding: '10px' }}>{product.name}</td>
-              <td style={{ padding: '10px', textAlign: 'right' }}>
-                ฿{product.price.toLocaleString()}
-              </td>
-              <td style={{ padding: '10px', textAlign: 'center' }}>
-                {product.inStock ? '✅ มีสินค้า' : '❌ หมด'}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </StyledCard>
-  );
-}
+          <button 
+            onClick={handleLogin}
+            style={{
+              width: '100%',
+              padding: '10px',
+              backgroundColor: '#4CAF50',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px'
+            }}
+          >
+            Login
+          </button>
+        </div>
+      ) : (
+        // แสดงหน้า Dashboard
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            padding: '20px',
+            backgroundColor: '#e8f5e9',
+            borderRadius: '10px',
+            marginBottom: '15px'
+          }}>
+            <h3>👋 ยินดีต้อนรับ, {username}!</h3>
+            <p>คุณเข้าสู่ระบบสำเร็จแล้ว</p>
+          </div>
 
-// 📦 บทที่ 2.3: Filter และ Map
-function StudentGrades() {
-  const students = [
-    { id: 1, name: 'อานนท์', score: 85 },
-    { id: 2, name: 'บุญมี', score: 45 },
-    { id: 3, name: 'ชนิดา', score: 92 },
-    { id: 4, name: 'ดาวใจ', score: 55 },
-    { id: 5, name: 'เอกชัย', score: 78 }
-  ];
-
-  // กรองเฉพาะคนที่สอบผ่าน (>= 50)
-  const passedStudents = students.filter(student => student.score >= 50);
-  
-  // กรองเฉพาะคนที่สอบไม่ผ่าน (< 50)
-  const failedStudents = students.filter(student => student.score < 50);
-
-  return (
-    <StyledCard title="📊 ผลการสอบ">
-      <div style={{ marginBottom: '15px' }}>
-        <h4 style={{ color: '#4CAF50' }}>✅ สอบผ่าน ({passedStudents.length} คน)</h4>
-        <ul>
-          {passedStudents.map(student => (
-            <li key={student.id}>
-              {student.name}: <strong>{student.score}</strong> คะแนน
-              {student.score >= 80 && ' 🌟'}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h4 style={{ color: '#f44336' }}>❌ สอบไม่ผ่าน ({failedStudents.length} คน)</h4>
-        <ul>
-          {failedStudents.map(student => (
-            <li key={student.id}>
-              {student.name}: <strong>{student.score}</strong> คะแนน
-            </li>
-          ))}
-        </ul>
-      </div>
+          <button 
+            onClick={handleLogout}
+            style={{
+              padding: '10px 30px',
+              backgroundColor: '#f44336',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer'
+            }}
+          >
+            Logout
+          </button>
+        </div>
+      )}
     </StyledCard>
   );
 }
@@ -130,19 +233,19 @@ export default function App() {
       padding: '20px',
       fontFamily: 'Arial, sans-serif'
     }}>
-      <h1 style={{ textAlign: 'center' }}>📚 บทที่ 2: แสดงข้อมูลและ Lists</h1>
+      <h1 style={{ textAlign: 'center' }}>📚 บทที่ 3: Conditional Rendering และ Events</h1>
       
-      <UserProfile />
-      <ProductList />
-      <StudentGrades />
+      <StatusBadge />
+      <Notification />
+      <LoginForm />
 
       <StyledCard title="🎓 สรุป">
         <ul>
-          <li>ใช้ <code>{'{}'}</code> เพื่อแทรกค่า JavaScript ใน JSX</li>
-          <li>ใช้ <code>.map()</code> เพื่อแปลง array เป็น JSX elements</li>
-          <li>ใช้ <code>.filter()</code> เพื่อกรองข้อมูล</li>
-          <li>ต้องใส่ <code>key</code> ที่ unique ในทุก list item</li>
-          <li>สามารถใช้เงื่อนไข <code>{'{'}condition && &lt;Element /&gt;{'}'}</code></li>
+          <li><strong>Ternary (? :):</strong> <code>{'{'}condition ? &lt;A /&gt; : &lt;B /&gt;{'}'}</code></li>
+          <li><strong>Logical AND (&&):</strong> <code>{'{'}condition && &lt;A /&gt;{'}'}</code></li>
+          <li><strong>Events:</strong> onClick, onChange, onSubmit เป็นต้น</li>
+          <li><strong>Arrow Function:</strong> <code>onClick={'{'}() =&gt; doSomething(){'}'}</code></li>
+          <li><strong>Event Object:</strong> <code>onChange={'{'}(e) =&gt; setValue(e.target.value){'}'}</code></li>
         </ul>
       </StyledCard>
     </div>
